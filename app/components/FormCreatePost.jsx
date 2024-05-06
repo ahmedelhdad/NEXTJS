@@ -1,13 +1,11 @@
 "use client";
 
 import React from 'react'
-import useStore from '@/Utils/store';
+import useUserStore from '@/Utils/store';
 import { useFormik } from 'formik';
 import { createpostSchema } from '@/Utils/createpostSchema';
 const FormCreatePost = () => {
-  const { post, setNewpost } = useStore();
-  
-
+  const { newPost, setNewPost } = useUserStore();
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -18,7 +16,7 @@ const FormCreatePost = () => {
     validateOnBlur: true,
     validateOnChange: true,
     onSubmit: async (values) => {
-      setNewpost(values)
+      setNewPost(values)
     },
   });
   return (

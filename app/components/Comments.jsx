@@ -1,17 +1,20 @@
 'use clietn'
 import { IoArrowUndoSharp } from "react-icons/io5";
 import { useQuery } from 'react-query';
+import useUserStore from '@/Utils/store';
 
 const fetchComments = async (postId) => {
-    const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`);
+    const response = await fetch(`https://jsonplaceholder.typicode.com/posts/1/comments`);
     return response.json();
 };
-const Comments = ({ postId }) => {
-    const { data: commentsData, isLoading: isCommentsLoading } = useQuery(['comments', postId], () => fetchComments(postId));
+const Comments = () => {
+    const {comment,setComment} = useUserStore((state) => state);
+    const { data: commentsData, isLoading: isCommentsLoading } = useQuery('comments', () => fetchComments(),{
+        onSuccess: (commentsData) => setComment(commentsData),
+    })
 
     if (isCommentsLoading) return <div>Loading comments...</div>;
-
-    return commentsData.map(comment => (
+    return comment.map(comment => (
         <div className='p-12 space-y-4 border border-borderColor rounded-xl' key={comment.id}>
             <div className='flex items-center justify-between '>
                 <div className='flex items-center space-x-4'>
